@@ -59,11 +59,10 @@ $ ls /path/to/backups | tmb | xargs rm -rf
 ## Building
 
 ```
-$ go install github.com/cwarden/tmb-go
+$ go install github.com/cwarden/tmb-go@latest
 ```
 
 ## TODO
 
 * Convert date strings into structs containing time and original format
 * Read keepSpecs as arguments so seven daily, four weekly, and twelve monthly backups aren't hard-coded
-* Add tests
