@@ -54,8 +54,9 @@ func keepers(dates []time.Time, specs []*KeepSpec) []time.Time {
 		}
 
 		first, second := dates[0], dates[1]
-		if first.Sub(second) < spec.minDiff {
-			// second is too close to first; it can be deleted
+		if len(dates) > 3 && first.Sub(second) < spec.minDiff {
+			// second is too close to first; it can be deleted unless it's the
+			// last one
 			return keepersRec(dates[0:1+copy(dates[1:], dates[2:])], specs)
 		}
 
@@ -105,9 +106,10 @@ func main() {
 	}
 
 	specs := []*KeepSpec{
-		{howMany: 12, minDiff: 30 * 24 * time.Hour}, // 12 months
-		{howMany: 4, minDiff: 7 * 24 * time.Hour},   // 4 weeks
-		{howMany: 7, minDiff: 18 * time.Hour},       // at least 18 hours between daily backups
+		{howMany: 10, minDiff: 12 * 365.25 * 24 * time.Hour}, // 10 years
+		{howMany: 12, minDiff: 30 * 24 * time.Hour},          // 12 months
+		{howMany: 4, minDiff: 7 * 24 * time.Hour},            // 4 weeks
+		{howMany: 7, minDiff: 18 * time.Hour},                // at least 18 hours between daily backups
 	}
 	sort.Slice(specs, func(i, j int) bool {
 		return specs[i].minDiff < specs[j].minDiff
