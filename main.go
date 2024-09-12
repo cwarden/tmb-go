@@ -68,6 +68,10 @@ func keepers(dates []time.Time, specs []*KeepSpec) []time.Time {
 }
 
 func toDelete(dates []time.Time, specs []*KeepSpec) []time.Time {
+	sort.Slice(specs, func(i, j int) bool {
+		return specs[i].minDiff < specs[j].minDiff
+	})
+
 	sort.Slice(dates, func(i, j int) bool {
 		return dates[i].Before(dates[j])
 	})
@@ -111,10 +115,6 @@ func main() {
 		{howMany: 4, minDiff: 7 * 24 * time.Hour},            // 4 weeks
 		{howMany: 7, minDiff: 18 * time.Hour},                // at least 18 hours between daily backups
 	}
-	sort.Slice(specs, func(i, j int) bool {
-		return specs[i].minDiff < specs[j].minDiff
-	})
-
 	extraBackups := toDelete(validDates(dates), specs)
 
 	for _, backup := range extraBackups {
