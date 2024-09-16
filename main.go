@@ -105,10 +105,10 @@ func main() {
 	}
 
 	specs := []*KeepSpec{
-		{howMany: 10, minDiff: 12 * 365.25 * 24 * time.Hour}, // 10 years
-		{howMany: 12, minDiff: 30 * 24 * time.Hour},          // 12 months
-		{howMany: 4, minDiff: 7 * 24 * time.Hour},            // 4 weeks
-		{howMany: 7, minDiff: 18 * time.Hour},                // at least 18 hours between daily backups
+		{howMany: 10, minDiff: 365.25 * 24 * time.Hour}, // 10 years
+		{howMany: 12, minDiff: 30 * 24 * time.Hour},     // 12 months
+		{howMany: 4, minDiff: 7 * 24 * time.Hour},       // 4 weeks
+		{howMany: 7, minDiff: 18 * time.Hour},           // at least 18 hours between daily backups
 	}
 	extraBackups := toDelete(validDates(dates), specs)
 
